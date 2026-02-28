@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CALABASH HUKU & CHIPS — Audio Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#ff7a00;
+  --dark:#0b0b0b;
+  --panel:#141414;
+  --glass:rgba(255,255,255,0.04);
+  --text:#f5f5f5;
+  --muted:#aaa;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:radial-gradient(circle at top,#1a0d00,#070400 60%);
+  color:var(--text);
+  font-family:Inter,system-ui;
+  min-height:100vh;
+  user-select:none;
+}
+.lock-screen{
+  position:fixed;inset:0;
+  background:#000;
+  color:#fff;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:99999;
+}
+.lock-screen h1{font-family:Space Grotesk;font-size:32px;color:var(--orange)}
+.dashboard{
+  max-width:1200px;
+  margin:auto;
+  padding:28px;
+  display:grid;
+  gap:28px;
+}
+.header{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+}
+.logo{
+  font-family:Space Grotesk;
+  font-size:30px;
+  font-weight:700;
+  color:var(--orange);
+}
+.subtitle{font-size:12px;color:var(--muted)}
+.panel{
+  background:linear-gradient(145deg,#120800,#050200);
+  border:1px solid rgba(255,122,0,0.25);
+  border-radius:22px;
+  padding:32px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.title{
+  font-family:Space Grotesk;
+  font-size:28px;
+  margin-bottom:10px;
+}
+.desc{color:var(--muted);font-size:14px;margin-bottom:24px}
+.playlist{
+  display:grid;
+  gap:18px;
+}
+.track{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  padding:18px 22px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+}
+.track-name{font-weight:600}
+.controls button{
+  padding:10px 18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  background:linear-gradient(135deg,var(--orange),#ffb347);
+  color:#000;
+}
+.timer{
+  margin-top:28px;
+  padding:16px;
+  border-radius:14px;
+  background:rgba(255,122,0,0.08);
+  border:1px solid rgba(255,122,0,0.25);
+  font-size:14px;
+}
+</style>
+</head>
+<body><div class="lock-screen" id="lockScreen">
+  <div>
+    <h1>Presentation Locked</h1>
+    <p>This CALABASH playlist presentation has expired.</p>
+  </div>
+</div><div class="dashboard" id="app">
+  <div class="header">
+    <div>
+      <div class="logo">CALABASH</div>
+      <div class="subtitle">HUKU & CHIPS · Premium Audio Presentation</div>
+    </div>
+  </div>  <div class="panel">
+    <div class="title">Brand Sound Identity Playlist</div>
+    <div class="desc">Private presentation playlist for CALABASH HUKU & CHIPS brand identity. Not for distribution.</div><div class="playlist">
+  <div class="track">
+    <div class="track-name">CALABASH Intro</div>
+    <div class="controls"><button onclick="playTrack(0)">Play</button></div>
+  </div>
+  <div class="track">
+    <div class="track-name">Cala Vibes</div>
+    <div class="controls"><button onclick="playTrack(1)">Play</button></div>
+  </div>
+  <div class="track">
+    <div class="track-name">CALABASH Chills</div>
+    <div class="controls"><button onclick="playTrack(2)">Play</button></div>
+  </div>
+</div>
+
+<div class="timer" id="timerBox">Presentation active</div>
+
+  </div>
+</div><audio id="a0" src="/calabashIntro.mp3"></audio> <audio id="a1" src="/calaVibes.mp3"></audio> <audio id="a2" src="/calabashChills.mp3"></audio>
+
+<script>
+// ===== Security Locks =====
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.onkeydown = function(e){
+  if(e.keyCode==123) return false; // F12
+  if(e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) return false;
+  if(e.ctrlKey && e.key.toLowerCase()=='u') return false;
+};
+
+// ===== Audio System =====
+const audios = [document.getElementById('a0'),document.getElementById('a1'),document.getElementById('a2')];
+let current = null;
+
+function playTrack(i){
+  audios.forEach((a,idx)=>{ if(idx!==i){ a.pause(); a.currentTime=0; }});
+  if(current===i){ audios[i].pause(); current=null; return; }
+  audios[i].play(); current=i;
+}
+
+// ===== 48 Hour Lock =====
+const LOCK_KEY = 'calabash_presentation_start';
+let start = localStorage.getItem(LOCK_KEY);
+if(!start){
+  start = Date.now();
+  localStorage.setItem(LOCK_KEY,start);
+}
+
+const LIMIT = 48 * 60 * 60 * 1000; // 48hrs
+
+function checkLock(){
+  const now = Date.now();
+  const diff = now - start;
+  if(diff >= LIMIT){
+    document.getElementById('lockScreen').style.display='flex';
+    document.getElementById('app').style.display='none';
+  }else{
+    const remaining = LIMIT - diff;
+    const hrs = Math.floor(remaining/(1000*60*60));
+    const mins = Math.floor((remaining%(1000*60*60))/(1000*60));
+    document.getElementById('timerBox').innerText = `Presentation auto-locks in ${hrs}h ${mins}m`;
+  }
+}
+
+setInterval(checkLock,60000);
+checkLock();
+</script></body>
+</html>
