@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huku & Chips · Calabash · SweetiePies — Branded Audio Identity Demo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Inter,sans-serif;
+background:#0b0b0b;
+color:#f5f5f5;
+min-height:100vh;
+user-select:none;
+overflow-x:hidden;
+}
+
+.overlay-lock{
+position:fixed;
+inset:0;
+pointer-events:none;
+background:radial-gradient(circle at center, rgba(255,255,255,0.02), rgba(0,0,0,0.35));
+z-index:2;
+}
+
+.header{
+padding:90px 24px 70px;
+text-align:center;
+position:relative;
+}
+
+.header::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(180deg, transparent 60%, rgba(207,162,74,0.18) 85%, rgba(207,162,74,0.35) 100%);
+z-index:0;
+}
+
+.header > *{position:relative;z-index:1;}
+
+.header h1{
+font-family:'Space Grotesk',sans-serif;
+font-size:42px;
+margin:0;
+letter-spacing:2px;
+}
+
+.header p{
+margin-top:10px;
+color:#bbb;
+font-size:15px;
+}
+
+.container{
+max-width:1200px;
+margin:0 auto;
+padding:40px 20px 100px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:28px;
+}
+
+.card{
+background:linear-gradient(180deg,#141414,#0f0f0f);
+border-radius:22px;
+padding:30px;
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 25px 60px rgba(0,0,0,0.75);
+position:relative;
+overflow:hidden;
+}
+
+.card::before{
+content:"";
+position:absolute;
+inset:-20px;
+background:
+radial-gradient(circle at bottom center, rgba(255,170,90,0.25), transparent 45%),
+radial-gradient(circle at top center, rgba(255,200,120,0.10), transparent 50%),
+radial-gradient(circle at left center, rgba(255,180,120,0.12), transparent 55%),
+radial-gradient(circle at right center, rgba(255,180,120,0.12), transparent 55%);
+z-index:0;
+}
+
+.card > *{position:relative;z-index:1;}
+
+.card::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.03),transparent);
+opacity:0;
+transition:.6s;
+}
+
+.card:hover::after{opacity:1}
+
+.mode{
+font-size:12px;
+letter-spacing:2px;
+text-transform:uppercase;
+color:#aaa;
+}
+
+.title{
+font-family:'Space Grotesk',sans-serif;
+font-size:20px;
+margin:6px 0 8px;
+}
+
+.desc{
+font-size:13px;
+color:#bbb;
+line-height:1.5;
+}
+
+.controls{
+margin-top:18px;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.play{
+width:54px;
+height:54px;
+border-radius:50%;
+border:1px solid rgba(255,255,255,0.3);
+background:rgba(0,0,0,0.6);
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+font-size:18px;
+}
+
+.progress-wrap{
+flex:1;
+height:6px;
+background:#222;
+border-radius:6px;
+overflow:hidden;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#cfa24a,#fff);
+}
+
+.footer{
+text-align:center;
+padding:40px 20px;
+font-size:11px;
+color:#777;
+border-top:1px solid rgba(255,255,255,0.08);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay-lock"></div>
+
+<div class="header">
+
+<h1>HUKU & CHIPS · CALABASH · SWEETIEPIES</h1>
+<p>Branded Audio Identity Demo · Curated In-Store Playlist Experience · Proposal Presentation</p>
+
+</div>
+
+
+<div class="container">
+
+<div class="card"><div class="mode">Huku & Chips</div><div class="title">Welcome to Huku & Chips</div><div class="desc">Energetic welcome introducing the best dressed chicken in town.</div><div class="controls"><div class="play" onclick="toggle('a1',this)">▶</div><div class="progress-wrap"><div class="progress" id="p1"></div></div></div><audio id="a1" src="HukuWelcome.mp3"></audio></div>
+
+<div class="card"><div class="mode">Huku & Chips</div><div class="title">Browse & Order</div><div class="desc">Relaxed rhythm for customers exploring the menu.</div><div class="controls"><div class="play" onclick="toggle('a2',this)">▶</div><div class="progress-wrap"><div class="progress" id="p2"></div></div></div><audio id="a2" src="HukuBrowse.mp3"></audio></div>
+
+<div class="card"><div class="mode">Huku & Chips</div><div class="title">Signature Sizzle</div><div class="desc">Capturing the sound of fresh crispy chicken from the fryer.</div><div class="controls"><div class="play" onclick="toggle('a3',this)">▶</div><div class="progress-wrap"><div class="progress" id="p3"></div></div></div><audio id="a3" src="HukuSignatureSizzle.mp3"></audio></div>
+
+<div class="card"><div class="mode">Huku & Chips</div><div class="title">Combo Promo</div><div class="desc">Upbeat promotional jingle highlighting combo meals.</div><div class="controls"><div class="play" onclick="toggle('a4',this)">▶</div><div class="progress-wrap"><div class="progress" id="p4"></div></div></div><audio id="a4" src="HukuComboPromo.mp3"></audio></div>
+
+<div class="card"><div class="mode">Calabash</div><div class="title">Calabash Welcome</div><div class="desc">Warm traditional greeting reflecting Zimbabwean food culture.</div><div class="controls"><div class="play" onclick="toggle('a5',this)">▶</div><div class="progress-wrap"><div class="progress" id="p5"></div></div></div><audio id="a5" src="CalabashWelcome.mp3"></audio></div>
+
+<div class="card"><div class="mode">Calabash</div><div class="title">Family Table</div><div class="desc">Celebrating shared meals and family moments.</div><div class="controls"><div class="play" onclick="toggle('a6',this)">▶</div><div class="progress-wrap"><div class="progress" id="p6"></div></div></div><audio id="a6" src="CalabashFamilyTable.mp3"></audio></div>
+
+<div class="card"><div class="mode">Calabash</div><div class="title">Kitchen Call</div><div class="desc">Rhythmic atmosphere inspired by busy traditional kitchens.</div><div class="controls"><div class="play" onclick="toggle('a7',this)">▶</div><div class="progress-wrap"><div class="progress" id="p7"></div></div></div><audio id="a7" src="CalabashKitchenCall.mp3"></audio></div>
+
+<div class="card"><div class="mode">Calabash</div><div class="title">Taste of Home</div><div class="desc">Comforting sound reflecting authentic local cuisine.</div><div class="controls"><div class="play" onclick="toggle('a8',this)">▶</div><div class="progress-wrap"><div class="progress" id="p8"></div></div></div><audio id="a8" src="CalabashTasteOfHome.mp3"></audio></div>
+
+<div class="card"><div class="mode">SweetiePies</div><div class="title">Sweetie Moments</div><div class="desc">Soft café ambience for desserts and treats.</div><div class="controls"><div class="play" onclick="toggle('a9',this)">▶</div><div class="progress-wrap"><div class="progress" id="p9"></div></div></div><audio id="a9" src="SweetieMoments.mp3"></audio></div>
+
+<div class="card"><div class="mode">SweetiePies</div><div class="title">Candy Vibes Café</div><div class="desc">Playful upbeat sound perfect for sweet treats.</div><div class="controls"><div class="play" onclick="toggle('a10',this)">▶</div><div class="progress-wrap"><div class="progress" id="p10"></div></div></div><audio id="a10" src="CandyVibesCafe.mp3"></audio></div>
+
+<div class="card"><div class="mode">SweetiePies</div><div class="title">Tapi Tapi</div><div class="desc">Signature SweetiePies brand jingle.</div><div class="controls"><div class="play" onclick="toggle('a11',this)">▶</div><div class="progress-wrap"><div class="progress" id="p11"></div></div></div><audio id="a11" src="SweetieTapiTapi.mp3"></audio></div>
+
+<div class="card"><div class="mode">SweetiePies</div><div class="title">Sweetie Delight</div><div class="desc">Closing dessert mood leaving a sweet final impression.</div><div class="controls"><div class="play" onclick="toggle('a12',this)">▶</div><div class="progress-wrap"><div class="progress" id="p12"></div></div></div><audio id="a12" src="SweetieDelight.mp3"></audio></div>
+
+</div>
+
+
+<div class="container" style="grid-template-columns:1fr;">
+
+<div class="card"><div class="mode">Why This Matters</div><div class="title">Music Shapes Experience — Not Just Background</div><div class="desc">Customers remember atmosphere and culture more than dishes. Branded playlists reinforce identity and make the restaurant experience memorable.</div></div>
+
+<div class="card"><div class="mode">Business Impact</div><div class="title">Branding Through Audio</div><div class="desc">• Increases customer dwell time<br>• Improves mood and ambience<br>• Strengthens brand identity<br>• Creates emotional connection<br>• Builds customer loyalty</div></div>
+
+<div class="card"><div class="mode">Deployment Zones</div><div class="title">Where Playlists Work</div><div class="desc">• Entrance welcome zones<br>• Dining areas<br>• Waiting lines<br>• Dessert counters<br>• Lunch and dinner sessions<br>• Weekend events</div></div>
+
+<div class="card"><div class="mode">Brand Strategy</div><div class="title">Transforming Restaurants Into Sonic Brands</div><div class="desc">Audio branding turns everyday dining into an emotional and cultural experience customers remember.</div></div>
+
+</div>
+
+
+<div class="footer">
+© 2026 · Branded Restaurant Audio Playlist Demo · All Rights Reserved
+</div>
+
+<script>
+
+const audios=['a1','a2','a3','a4','a5','a6','a7','a8','a9','a10','a11','a12'];
+
+function toggle(id,btn){
+ audios.forEach(a=>{
+   if(a!==id){
+     const o=document.getElementById(a);
+     o.pause();o.currentTime=0;
+   }
+ });
+ const audio=document.getElementById(id);
+ if(audio.paused){audio.play();btn.innerHTML='⏸';}
+ else{audio.pause();btn.innerHTML='▶';}
+}
+
+setInterval(()=>{
+ audios.forEach((id,i)=>{
+   const a=document.getElementById(id);
+   const p=document.getElementById('p'+(i+1));
+   if(a.duration){p.style.width=(a.currentTime/a.duration*100)+'%';}
+ });
+},200);
+
+</script>
+
+</body>
+</html>
